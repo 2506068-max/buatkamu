@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap" rel="stylesheet">
+<title></title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Caveat', cursive;
+    background: linear-gradient(145deg, #d4e0d0 0%, #b5cfd8 50%, #e3d9cd 100%);
+    color: #0f1722; 
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100dvh;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .heart {
+    position: fixed;
+    font-size: 28px;
+    color: rgba(120, 150, 160, 0.4);
+    animation: floatHeart 16s linear infinite;
+    z-index: 1;
+    pointer-events: none;
+    user-select: none;
+    text-shadow: 0 0 10px rgba(150, 180, 190, 0.5);
+  }
+
+  .heart:nth-child(odd) {
+    color: rgba(160, 140, 160, 0.4); 
+  }
+  .heart:nth-child(3n) {
+    color: rgba(140, 170, 140, 0.4); 
+  }
+  .heart:nth-child(5n+2) {
+    color: rgba(170, 160, 130, 0.4); 
+  }
+
+  @keyframes floatHeart {
+    0% {
+      transform: translateY(100vh) scale(1) rotate(0deg);
+      opacity: 0.5;
+    }
+    100% {
+      transform: translateY(-10vh) scale(0.3) rotate(15deg);
+      opacity: 0;
+    }
+  }
+
+  .light {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    background: #9bb0b0;
+    border-radius: 50%;
+    opacity: 0.15;
+    animation: float 20s linear infinite;
+    z-index: 1;
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(100vh) scale(1);
+      opacity: 0.2;
+    }
+    100% {
+      transform: translateY(-10vh) scale(0.6);
+      opacity: 0;
+    }
+  }
+
+  .light:nth-child(1) { left: 10%; animation-duration: 14s; }
+  .light:nth-child(2) { left: 30%; animation-duration: 16s; }
+  .light:nth-child(3) { left: 50%; animation-duration: 12s; }
+  .light:nth-child(4) { left: 70%; animation-duration: 18s; }
+  .light:nth-child(5) { left: 90%; animation-duration: 15s; }
+
+  .content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    padding: 60px 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  .row {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px 30px;
+    border-radius: 30px;
+    margin: 0 40px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2;
+    background-color: rgba(255, 255, 255, 0.5); 
+    backdrop-filter: blur(3px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .row.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  #k1 { background-color: rgba(180, 200, 190, 0.6); } 
+  #k2 { background-color: rgba(170, 190, 210, 0.6); } 
+  #k3 { background-color: rgba(200, 180, 170, 0.6); } 
+  #k4 { background-color: rgba(210, 190, 170, 0.6); } 
+
+  h2, h4 {
+    font-weight: 800;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.05), 0 0 15px rgba(255,255,255,0.5);
+    letter-spacing: 1px;
+    margin: 8px 0;
+    color: #2e3b4e;
+  }
+
+  h2 {
+    font-size: clamp(28px, 4vw, 48px);
+  }
+
+  h4 {
+    font-size: clamp(38px, 11vw, 62px);
+  }
+
+  .love-text {
+    display: inline-block;
+    animation: softHeart 3s ease infinite;
+    color: #879eac; 
+    text-shadow: 0 0 10px #b0c4c9, 0 0 20px #a1b5bc;
+  }
+
+  @keyframes softHeart {
+    0% { transform: scale(1); }
+    5% { transform: scale(1.02); }
+    10% { transform: scale(1); }
+    15% { transform: scale(1.02); }
+    20% { transform: scale(1); }
+    100% { transform: scale(1); }
+  }
+
+  iframe {
+    width: min(100%, 600px);
+    aspect-ratio: 16 / 9;
+    max-width: 600px;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    margin: 20px 0;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+  }
+
+  iframe:hover {
+    transform: scale(1.02);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+  }
+
+  audio {
+    display: none;
+  }
+
+  .divider {
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(to right, #9bb0b0, #c0b7a8, #9bb0b0);
+    border-radius: 2px;
+    margin: 20px auto;
+    animation: glowPulse 4s infinite;
+  }
+
+  @media (max-width: 768px) {
+    .content {
+      gap: 40px;
+      padding: 40px 0 50px;
+    }
+
+    .row {
+      padding: 40px 20px;
+      margin: 0 16px;
+      border-radius: 24px;
+    }
+
+    h2 {
+      font-size: clamp(24px, 5.5vw, 32px);
+    }
+
+    h4 {
+      font-size: clamp(28px, 7vw, 40px);
+    }
+
+    iframe {
+      width: 100%;
+      max-width: 100%;
+      margin: 16px 0;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .content {
+      gap: 30px;
+      padding: 30px 0 40px;
+    }
+
+    .row {
+      padding: 32px 14px;
+      margin: 0 12px;
+      border-radius: 20px;
+    }
+
+    h2 {
+      font-size: clamp(22px, 6.2vw, 26px);
+    }
+
+    h4 {
+      font-size: clamp(24px, 7.4vw, 30px);
+    }
+
+    .divider {
+      width: 70px;
+      margin: 16px auto;
+    }
+  }
+
+  @keyframes glowPulse {
+    0% { opacity: 0.3; width: 60px; }
+    50% { opacity: 0.7; width: 100px; }
+    100% { opacity: 0.3; width: 60px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="heart" style="left: 5%; animation-duration: 12s; animation-delay: 0s;">❤️</div>
+<div class="heart" style="left: 15%; animation-duration: 15s; animation-delay: 2s;">❤️</div>
+<div class="heart" style="left: 25%; animation-duration: 13s; animation-delay: 1s;">❤️</div>
+<div class="heart" style="left: 35%; animation-duration: 17s; animation-delay: 3s;">❤️</div>
+<div class="heart" style="left: 45%; animation-duration: 12s; animation-delay: 0.5s;">❤️</div>
+<div class="heart" style="left: 55%; animation-duration: 16s; animation-delay: 2.5s;">❤️</div>
+<div class="heart" style="left: 65%; animation-duration: 14s; animation-delay: 1.8s;">❤️</div>
+<div class="heart" style="left: 75%; animation-duration: 19s; animation-delay: 0.2s;">❤️</div>
+<div class="heart" style="left: 85%; animation-duration: 13s; animation-delay: 3.2s;">❤️</div>
+<div class="heart" style="left: 95%; animation-duration: 15s; animation-delay: 1.2s;">❤️</div>
+<div class="heart" style="left: 20%; animation-duration: 18s; animation-delay: 4s;">❤️</div>
+<div class="heart" style="left: 70%; animation-duration: 14s; animation-delay: 2.2s;">❤️</div>
+
+<div class="light"></div>
+<div class="light"></div>
+<div class="light"></div>
+<div class="light"></div>
+<div class="light"></div>
+
+<audio autoplay loop>
+<source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+</audio>
+
+<div class="content">
+
+<div class="row" id="k1">
+<h2>Play dulu yaa (tapi error)</h2><br>
+<iframe src="https://www.youtube.com/embed/Q6EyNEX6BOc?si=lWl628qVwFlUbgE0"
+title="YouTube video player" frameborder="0"
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+allowfullscreen></iframe>
+<br>
+<h2>This song was a something for u(s)^^ </h2>
+</div>
+
+<div class="row" id="k2">
+<h4> Hallo Zaldy </h4>
+</div>
+<div class="row" id="k3">
+<h4> Ini akuu... Ur gf right? </h4>
+<h4> hshshshshshsh </h4>
+<h4> semoga satu - satunya yaa ^^</h4>
+</div>
+<div class="row" id="k4">
+<h4> I'M JOKINGGGGGGG </h4>
+</div>
+<div class="row" id="k1">
+<h4> Cuma mau ngungkapin my feelings for u </h4>
+</div>
+<div class="row" id="k2">
+<h4> Sebenernya udah pernah aku sampein </h4>
+<h4> But, I wanna tell you more </h4>
+<h4> with adding some what I feel for u </h4>
+</div>
+<div class="row" id="k3">
+<h4> »»———˚₊‧-` ♡ ´-‧₊˚———«« </h4>
+</div>
+<div class="row" id="k4">
+<h4> <span class="love-text">I love you...</span> </h4>
+<h4> bukan cuma as words, but </h4>
+<h4> as an action yang aku pilih setiap hari. </h4>
+</div>
+<div class="row" id="k1">
+<h4> Honestly, kamu itu partner yang luar </h4>
+<h4> biasa, the kind of person yang bisa jadi </h4>
+<h4> temen dalam segala hal</h4>
+</div>
+<div class="row" id="k2">
+<h4> Kamu berhasil membuka perspektif baru </h4>
+<h4> buat aku, especially dalam menghadapi </h4>
+<h4> realita yang sometimes aku hindari. </h4>
+</div>
+<div class="row" id="k3">
+<h4> I don't fully understand why, tapi setiap </h4>
+<h4> kali aku merasa overwhelmed dengan </h4>
+<h4> segalanya, it's always you that</h4>
+<h4> I find myself needing the most. </h4>
+</div>
+<div class="row" id="k4">
+<h4> To be completely honest with you, I really </h4>
+<h4> hope kamu bisa share lebih banyak </h4>
+<h4> tentang yourself dibanding sebelumnya. </h4>
+</div>
+<div class="row" id="k1">
+<h4> I need you, not just sometimes but in </h4>
+<h4> every single moment ketika aku merasa </h4>
+<h4> overwhelmed, and I feel like </h4>
+<h4> I'm drowning in my own thoughts. </h4>
+</div>
+<div class="row" id="k2">
+<h4> I'm capable of walking this path alone </h4>
+<h4> I know that but when I'm beside you </h4>
+<h4> somehow everything more meaningful like </h4>
+<h4> I'm actually living instead of just existing. </h4>
+</div>
+<div class="row" id="k3">
+<h4> Yang paling crucial buat aku adalah </h4>
+<h4> Please, just be your authentic self. </h4>
+</div>
+<div class="row" id="k4">
+<h4> Jangan pernah merasa like you need to </h4>
+<h4> change who you are because of me atau </h4>
+<h4> kehilangan diri kamu karena hubungan ini. </h4>
+</div>
+<div class="row" id="k1">
+<h4> I want you to chase your dreams yang bikin</h4>
+<h4> kamu happy, do all the things yang genuinely</h4>
+<h4> make you feel fulfilled and exited,</h4>
+<h4> without constantly feeling like there are</h4>
+<h4> too many limitations or obstacles that hold you back. </h4>
+</div>
+<div class="row" id="k2">
+<h4> Dan ini bukan selalu tentang sesuatu yang sempurna </h4>
+<h4> tapi tentang how I choose you in every single breath I take. </h4>
+</div>
+<div class="row" id="k3">
+<h4> This is me, performing the greatest role</h4>
+<h4> of my life, someone who loves you </h4>
+<h4> unconditionally, completely, and endlessly. </h4>
+</div>
+<div class="row" id="k4">
+<h4> Semoga kita always on the same page, for </h4>
+<h4> growing together understanding each other deeply, </h4>
+<h4> and keeping everyone else out of our equation. </h4>
+</div>
+<div class="row" id="k1">
+<h4> No distractions and no third parties. </h4>
+<h4> Just us, forever leveling up side by side. </h4>
+<h4> That's the only future I dream of. </h4>
+</div>
+<div class="row" id="k2">
+<h4> So here's what I want </h4>
+<h4> nggak cuma mau kita jatuh cinta </h4>
+<h4> terus tenggelam dalam drama</h4>
+<h4> karena aku gak mau kalo harus kecewa</h4>
+</div>
+<div class="row" id="k3">
+<h4> Aku berharap dalam seni peran cinta ini </h4>
+<h4> We're not only falling but actually </h4>
+<h4> building something strong enough to stand on.</h4>
+</div>
+<div class="row" id="k4">
+<h4> Salam kasih </h4>
+<h4>  .....  </h4>
+<h4> N  જ⁀➴ ♡  Z</h4>
+</div>
+<div class="row" id="k1">
+<h4> babay... </h4>
+</div>
+
+</div>
+
+<div style="text-align: center; margin: 20px; z-index: 2; position: relative;">
+    <div class="divider"></div>
+</div>
+
+<script>
+  (function() {
+    const rows = document.querySelectorAll('.row');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    
+    rows.forEach(row => {
+      observer.observe(row);
+    });
+  })();
+</script>
+
+</body>
+</html>
